@@ -1,0 +1,1 @@
+from app.comic.views import comic

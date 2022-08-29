@@ -1,0 +1,99 @@
+// Semantic UI breakpoints
+$mobile-breakpoint:        768px;
+$tablet-breakpoint:        992px;
+$small-monitor-breakpoint: 1200px;
+
+// General nav
+nav {
+    margin-bottom: 40px !important;
+}
+
+// Desktop nav
+.ui.fixed.main.menu .right.menu > .item:last-of-type {
+    border-right: 1px solid rgba(34, 36, 38, 0.0980392);
+}
+
+// Mobile nav
+nav .mobile.only.row {
+    .ui.vertical.menu {
+        margin-top: 40px;
+        display: none;
+    }
+}
+
+// Flashes
+.flashes > .ui.message:last-of-type {
+    margin-bottom: 2rem;
+}
+
+// Tables
+table.selectable tr:hover {
+    cursor: pointer !important;
+}
+
+// shINEEEEEEE
+.shine_animate {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shine_animate img {
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  .shine_animate:before {
+    content: "";
+    z-index: 10;
+    position: absolute;
+    height: 200%;
+    width: 200%;
+    top: -120%;
+    left: -120%;
+    background: linear-gradient(transparent 0%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0.1) 55%, transparent 100%);
+    transition: all 4s;
+    transform: rotate(-45deg);
+    animation: shine 9s infinite forwards;
+  }
+
+  @keyframes shine {
+    0% {
+        top: -120%;
+        left: -120%;
+    }
+    20% {
+        left: 100%;
+        top: 100%;
+    }
+    40% {
+        left: 100%;
+        top: 100%;
+    }
+    100% {
+        left: 100%;
+        top: 100%;
+    }
+  }
+
+.text_turnacate{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.img-hover-zoom {
+    height: 250px; /* [1.1] Set it as per your need */
+    overflow: hidden; /* [1.2] Hide the overflowing of child elements */
+  }
+
+.img-hover-zoom img {
+transition: transform .5s ease;
+}
+
+.img-hover-zoom:hover img {
+transform: scale(1.25);
+}
