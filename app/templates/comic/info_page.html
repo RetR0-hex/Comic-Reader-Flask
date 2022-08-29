@@ -1,0 +1,119 @@
+{% extends 'layouts/base.html' %}
+
+{% block page_title %}{{comic.name}} - Info{% endblock %}
+
+{% block content %}
+<div class="ui grid container">
+  <div class="row">
+    <div class="column">
+      <div class="ui breadcrumb">
+        <a class="section" href="/">Home</a>
+        <i class="right angle icon divider"></i>
+        <a class="section">Comic</a>
+        <i class="right arrow icon divider"></i>
+        <div class="active section">{{comic.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ui relaxed stackable grid container">
+  <div class="row">
+    <div class="four wide column">
+      <div class="ui sticky">
+        <div class="ui black raised fluid card">
+          <div class="image shine_animate">
+            <img alt="{{comic.name}} cover image" src="{{comic.cover_img}}">
+          </div>
+          <div class="extra">
+            Rating:
+            <div class="ui star rating right floated" data-rating="4" data-max-rating="5"></div>
+          </div>
+          <div class="extra">
+            Views:
+            <span class="right floated">
+              12451 &nbsp;<i class="ui eye icon right floated"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="twelve wide column">
+      <div class="ui padded segment">
+        <div class="ui header">
+          <h1>{{comic.name}}</h1>
+        </div>
+        <div class="ui grey labels">
+          {% for genre in genres %}
+          <div class="ui label" style="text-transform: uppercase; border-radius: 10px"><i
+              class="tag icon"></i>{{genre.name}}</div>
+          {% endfor %}
+        </div>
+        <br />
+        <p>{{comic.description}}</p>
+      </div>
+      <div class="twelve wide column">
+        <div id="chapters" class="ui secondary padded segment">
+          <div class="ui horizontal divider header">
+            <i class="book icon"></i> CHAPTERS
+          </div>
+          <br />
+          <div class="ui two column very relaxed equal width stackable grid container">
+            <div class="row">
+              {% if chapters %}
+              {% for chapter in chapters %}
+              <div class="chap_pulse column" style="margin-top: 10px; margin-bottom: 10px">
+                <div class="ui link divided items" style="border-radius: 5px; background-color: #c5cbd073;">
+                  <a class="item" href="chapter/{{chapter.id}}/read">
+                    <div class="ui tiny rounded image" style="padding: 5px">
+                      <img src="/static/images/placeholder/view.png">
+                    </div>
+                    <div class="middle aligned content">
+                      <div class="header">Chapter {{chapter.number}} - {{chapter.name}}</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <br />
+              {% endfor %}
+              {% else %}
+              <h2 class="ui center aligned icon header">
+                <i class="exclamation triangle icon"></i>
+                No chapters available.
+              </h2>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <script type="text/javascript">$(document).ready(function () { $(".rating").rating(); });</script>
+      <script>
+        $(document).ready(function () {
+          if (window.matchMedia("(max-width: 767px)").matches) {
+          } else {
+            $('.ui.sticky')
+              .sticky({
+                offset: 50,
+                bottomOffset: 50,
+                context: '#chapters'
+              });
+          }
+        });
+      </script>
+      <script>
+        $(document).ready(function () {
+          $('.chap_pulse').hover(function () {
+            $(this).transition({
+              animation: 'pulse',
+              duration: 1000,
+              interval: 500,
+              allowRepeats: false,
+              queue: false
+            });
+          }, function () { });
+        });
+      </script>
+    </div>
+  </div>
+
+
+  {% endblock %}

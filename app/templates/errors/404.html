@@ -1,0 +1,25 @@
+{% extends 'layouts/base.html' %}
+
+{% block custom_head_tags %}
+<style>
+#my-container {
+  background: #FFF;
+  height: 100vh;
+  width: 100%;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div id="my-container" class="ui grid middle aligned">
+    <div class="row">
+      <div class="column">
+        <div class="ui center aligned text container">
+            <h1 class="ui header">404</h1>
+            <h3 class="ui header">Page not found &nbsp;:(</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

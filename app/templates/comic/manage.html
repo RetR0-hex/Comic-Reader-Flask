@@ -1,0 +1,77 @@
+{% extends 'layouts/base.html' %}
+{% import 'macros/form_macros.html' as f %}
+
+{% set endpoints = [
+    ('comic.manage', 'info circle icon', 'Comic Info'),
+    ('comic.new_comic', 'book icon', 'Create New Comic'),
+    ('comic.upload_chapter', 'pencil alternate icon', 'Upload a Chapter'),
+    ('comic.delete', 'trash alternate icon', 'Delete Comic')
+] %}
+
+
+{% macro navigation(items) %}
+    <div class="ui vertical fluid labeled icon secondary menu">
+        {% for route, icon, name in items %}
+            {% set href = url_for(route) %}
+            <a class="item {% if request.endpoint == route %}active{% endif %}" href="{{ href }}">
+                <i class="{{icon}}"></i>
+                {{ name }}
+            </a>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+{% macro comic_info(comics) %}
+    <table class="ui celled compact table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Chapters</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for comic in comics %}
+            <tr>
+                <td data-label="ID">{{comic.id}}</td>
+                <td data-label="Name">{{comic.name}}</td>
+                <td data-label="Chapters">{{comic.count_chaps()}}</td>
+              </tr>
+              {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
+
+{% block content %}
+    <div class="ui stackable centered fluid grid container">
+        <div class="fifteen wide column">
+            <h2 class="ui header">
+                Manage Comics
+                <div class="sub header">CRUD for Comics</div>
+            </h2>
+            {% set flashes = {
+                'error':   get_flashed_messages(category_filter=['form-error']),
+                'warning': get_flashed_messages(category_filter=['form-check-email']),
+                'info':    get_flashed_messages(category_filter=['form-info']),
+                'success': get_flashed_messages(category_filter=['form-success'])
+            } %}
+
+            {{ f.form_message(flashes['success'], header='Success!', class='success') }}
+            {{ f.form_message(flashes['error'], header='Something went wrong.', class='error') }}
+            {{ f.form_message(flashes['warning'], header='Check your email.', class='warning') }}
+            {{ f.form_message(flashes['info'], header='Information', class='info') }}
+        </div>
+        <div class="stretched divided very relaxed row">
+            <div class="three wide column">
+                {{ navigation(endpoints) }}
+            </div>
+            <div class="thirteen wide column">
+                {% if form %}
+                    {{ f.render_form(form, extra_classes='fluid') }}
+                {% else %}
+                    {{ comic_info(comics) }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

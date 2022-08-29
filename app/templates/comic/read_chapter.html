@@ -1,0 +1,44 @@
+{% extends 'layouts/base.html' %}
+
+{% block page_title %}Chapter {{chapter.number}} - {{comic.name}}{% endblock %}
+
+{% block custom_head_tags %}
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ui stackable grid container">
+  <div class="row">
+    <div class="column">
+      <div class="ui breadcrumb">
+        <a class="section" href="/">Home</a>
+        <i class="right angle icon divider"></i>
+        <a class="section">Comic</a>
+        <i class="right angle icon divider"></i>
+        <a class="section" href="/comic/id/{{comic.id}}/info">{{comic.name}}</a>
+        <i class="right arrow icon divider"></i>
+        <div class="active section">Chapter {{chapter.number}} - {{chapter.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="ui one column centered stackable relaxed grid container scrollingPanel"
+  style="margin-top: 20px; margin-bottom: 20px">
+  <div class="row">
+    {% for page in pages %}
+    <div class="column">
+      <img class="ui fluid image lazy" data-src="/{{chapter.path}}/{{page.path}}"
+        src="/static/images/placeholder/loader.gif" loading="lazy">
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<script>
+  var lazyLoadInstance = new LazyLoad({
+    threshold: 1200
+  });
+</script>
+
+{% endblock %}

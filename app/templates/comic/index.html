@@ -1,0 +1,168 @@
+{% extends 'layouts/base.html' %}
+
+{% block page_title %}{{ config.APP_NAME }} - Home{% endblock %}
+
+{% block custom_head_tags %}
+<script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js"></script>
+
+{# swiper import for crousals #}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+<style>
+.swiper-button-prev {
+    color: red;
+}
+
+
+</style>
+
+
+{% endblock %}
+
+{% block content %}
+<div class="ui two column relaxed stackable fluid grid container">
+    <div class="row">
+        <div class="twelve wide column">
+            <div class="crousal">
+                <div class="ui centered header">Basic Banner</div>
+                <div class="swiper mySwiper2" style="height: 400px; width: 100%">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <!-- Slides -->
+                        {% for comic in comics[3:] %}
+                        <div class="swiper-slide">
+                            <a class="image img-hover-zoom" href="id/{{comic.id}}/info">
+                                {% set src = comic.cover_img %}
+                                <img id="comic_cover" src="{{src}}" style="width: 900px; object-fit: cover">
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- If we need navigation buttons -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+        <div class="four wide column">
+                <div class="ui centered header">Ads SideBar</div>
+                <img class="ui image fluid lazy" data-src="/static/images/placeholder/200x400.jpg" src="/static/images/placeholder/loader.gif" style="height: 400px; object-fit: cover">
+        </div>
+    </div>
+    <div class="row">
+        <div class="twelve wide column">
+            <div class="ui header">New Releases</div>
+            <div id="comic_container" class="ui container">
+                <div class="ui four special rounded doubling relaxed fluid cards">
+                    {% for comic in comics %}
+                    <div class="card">
+                        <a class="image shine_animate img-hover-zoom" href="id/{{comic.id}}/info">
+                            {% set src = comic.cover_img %}
+                            <img id="comic_cover" class="computer only lazy" data-src={{src}}
+                                src="/static/images/placeholder/loader.gif" style="height: 250px; object-fit: cover">
+                        </a>
+                        <div class="content">
+                            <a class="ui small header text_turnacate" href="id/{{comic.id}}/info">{{comic.name}}</a>
+                        </div>
+                        <div class="extra content">
+                            <a href="id/{{comic.id}}/info#chapters">
+                                <i class="book icon"></i>
+                                {{comic.count_chaps()}} Chapters
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="four wide column">
+            <div class="ui sticky">
+                <div class="ui centered header">Ranking Sidebar</div>
+                {# this is just for show right now due to the changes required in the- #}
+                {# database and view.py files #}
+                {# so i am not bothering with it right now #}
+                {# to make this work i need to track ratings #}
+                {# add a column to comic db model for ratings #}
+                {# have a route for calc new rating in the view.py #}
+                <div class="ui divided items">
+                    {% for comic in comics[0:6] %}
+                    <div class="item">
+                        <a class="ui mini image">
+                            <div class="ui mini left corner red label">
+                                <i class="certificate icon mini"></i>
+                            </div>
+                            <img src={{comic.cover_img}}>
+                        </a>
+                        <div class="content">
+                            <div class="header">{{comic.name}}</div>
+                            <div class="meta">
+                                <span class="rating">1st</span>
+                                <span class="rating">4.4/5.0</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script class="text/javascript">
+    $(document).ready(function () {
+        $('.card').hover(function () {
+            $(this).addClass('raised');
+        }, function () {
+            $(this).removeClass('raised');
+        });
+    });
+</script>
+<script>
+    var lazyLoadInstance = new LazyLoad({
+        threshold: 300
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        if (window.matchMedia("(max-width: 767px)").matches) {
+        } else {
+            $('.ui.sticky')
+                .sticky({
+                    offset: 50,
+                    bottomOffset: 50,
+                    context: '#comic_container'
+                });
+        }
+    });
+</script>
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 10,
+      slidesPerView: 4,
+      freeMode: true,
+      watchSlidesProgress: true,
+    });
+    var swiper2 = new Swiper(".mySwiper2", {
+      spaceBetween: 10,
+      loop: true,
+      lazy: true,
+      effect: "fade",
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+      autoplay: {
+          delay: 7500,
+          disableOnInteraction: true,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          type: "progressbar",
+        },
+    });
+</script>
+{% endblock %}
